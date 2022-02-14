@@ -1,0 +1,8 @@
+/node_modules
+/config/development.js
+/config/production.js
+/config/qa.js
+/requests
+
+package-lock.json
+.env
