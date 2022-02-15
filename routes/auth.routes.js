@@ -6,12 +6,11 @@ const { JWT_SECRET } = require('../config');
 // Check validation for req
 const { check, validationResult } = require('express-validator');
 const gravatar = require('gravatar');
-
 // requiero mi middleware de autenticación
 const { auth } = require('../middleware');
-
 // requerimos el modelo de Usuario
 const User = require('../models/User');
+
 
 const authRouter = Router();
 
@@ -23,7 +22,7 @@ authRouter.get('/',
    auth,
    async (req, res, next) => {
 
-      if (req.error) return next();;
+      if (req.error) return next();
 
       try {
          const user = await User.findById(req.user.id).select('-password')
@@ -36,6 +35,7 @@ authRouter.get('/',
       }
    }
 )
+
 
 // @route POST api/user/register
 // @desc Register user

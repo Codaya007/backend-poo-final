@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
 const { JWT_SECRET } = require('../config');
+const User = require('../models/User');
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
 
    req.error && next();
 
@@ -19,6 +20,10 @@ module.exports = (req, res, next) => {
 
    try {
       const decoded = jwt.verify(token, JWT_SECRET);
+
+      let user = await User.findById(decoded.user.id);
+
+      if (!user) req.error = { status: 401, message: "Invalid user" };
 
       // set user id in req.user
       req.user = decoded.user;

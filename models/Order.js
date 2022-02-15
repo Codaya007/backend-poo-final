@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { PENDING } = require('../helpers/constants');
+const { ObjectId } = mongoose.Schema;
 
 const UserSchema = new mongoose.Schema({
    country: {
@@ -32,10 +33,17 @@ const UserSchema = new mongoose.Schema({
       required: true,
       default: PENDING
    },
+   paid: {
+      type: Boolean,
+      required: true,
+      default: false
+   },
    products: [
       {
          productId: {
-            type: String,
+            type: ObjectId,
+            ref: 'Product',
+            required: true
          },
          quantity: {
             type: Number,
