@@ -9,7 +9,7 @@ const CategorySchema = new mongoose.Schema({
       unique: true
    },
 }, {
-   timestamps: true
+   timestamps: false
 });
 
 module.exports = Category = mongoose.model('Category', CategorySchema)

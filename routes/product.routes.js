@@ -107,7 +107,11 @@ productRouter.get('/all', async (req, res, next) => {
 
    try {
       let data = await Product.find({})
-         .select('-photo').populate('category')
+         .select('-photo')
+         // .populate('category')
+         .sort([
+            ["name", "asc"]
+         ])
 
       res.json(data);
    } catch (err) {
@@ -121,55 +125,55 @@ productRouter.get('/all', async (req, res, next) => {
 
 // @route GET api/product/list
 // @desc Get a list of products with filter
-// @options(order = asc or desc, sortBy any product property like name, limit, number of returned product)
+// @options(order = asc or desc, sortBy any product property like name, limit
 // @access Public
-productRouter.get('/list', async (req, res, next) => {
-   let { order = "asc", sortBy = "_id", limit } = req.query;
-   limit = parseInt(limit);
-   // let order = req.query.order ? req.query.order : 'asc';
-   // let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
-   // let limit = parseInt(req.query.limit) : 10;
+// productRouter.get('/list', async (req, res, next) => {
+//    let { order = "asc", sortBy = "_id", limit } = req.query;
+//    limit = parseInt(limit);
+// let order = req.query.order ? req.query.order : 'asc';
+// let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
+// let limit = parseInt(req.query.limit) : 10;
 
-   try {
-      let products = await Product.find({})
-         .select('-photo').populate('category').sort([
-            [sortBy, order]
-         ]).limit(limit || 15).exec();
+//    try {
+//       let products = await Product.find({})
+//          .select('-photo').populate('category').sort([
+//             [sortBy, order]
+//          ]).limit(limit || 15).exec();
 
-      res.json(products);
+//       res.json(products);
 
-   } catch (err) {
-      console.log(err);
+//    } catch (err) {
+//       console.log(err);
 
-      req.error = { status: 400, message: 'Invalid querys' };
-      next();
-   }
+//       req.error = { status: 400, message: 'Invalid querys' };
+//       next();
+//    }
 
-})
+// })
 
 
 // @route GET api/product/categories
 // @desc Get a list categories of products
 // @access Public
-productRouter.get('/categories', async (req, res, next) => {
-   try {
-      let categories = await Product.distinct('category');
+// productRouter.get('/categories', async (req, res, next) => {
+//    try {
+//       let categories = await Product.distinct('category');
 
-      if (!categories) {
-         req.error = {
-            status: 404,
-            message: 'Categories not found'
-         };
-         return next();
-      }
+//       if (!categories) {
+//          req.error = {
+//             status: 404,
+//             message: 'Categories not found'
+//          };
+//          return next();
+//       }
 
-      res.json(categories);
-   } catch (err) {
-      console.log(err);
-      req.error = {};
-      next();
-   }
-});
+//       res.json(categories);
+//    } catch (err) {
+//       console.log(err);
+//       req.error = {};
+//       next();
+//    }
+// });
 
 
 // @route GET api/product/search
@@ -200,7 +204,11 @@ productRouter.get('/search', async (req, res, next) => {
    }
 
    try {
-      let products = await Product.find(query).select('-photo');
+      let products = await Product.find(query)
+         .select('-photo')
+         .sort([
+            ["name", "asc"]
+         ]);
       res.json(products);
    } catch (err) {
       console.log(err);
@@ -217,10 +225,10 @@ productRouter.get('/search', async (req, res, next) => {
 // @desc    filter a Product by price and others
 // @access  Public
 productRouter.get('/filter', async (req, res, next) => {
-   let { order = "desc", sortBy = "_id", limit, skip, filters } = req.body;
-   limit = parseInt(limit) || 100;
+   let { order = "asc", sortBy = "name", filters } = req.body;
+   // limit = parseInt(limit) || 100;
    // Paginado i guess
-   skip = parseInt(skip);
+   // skip = parseInt(skip);
 
    let findArgs = {};
 
@@ -240,16 +248,16 @@ productRouter.get('/filter', async (req, res, next) => {
          }
       }
    }
-
+   // console.log(findArgs);
    try {
       let products = await Product.find(findArgs)
          .select('-photo')
-         .populate('category')
+         // .populate('category')
          .sort([
             [sortBy, order]
          ])
-         .skip(skip)
-         .limit(limit);
+      // .skip(skip)
+      // .limit(limit);
 
       res.json(products);
    } catch (error) {
@@ -267,40 +275,40 @@ productRouter.get('/filter', async (req, res, next) => {
 // @route   GET api/product/related/:id
 // @desc    get related products
 // @access  Public
-productRouter.get('/related/:id', productById, async (req, res, next) => {
+// productRouter.get('/related/:id', productById, async (req, res, next) => {
 
-   if (req.error) return next();
+//    if (req.error) return next();
 
-   let limit = req.query.limit ? parseInt(req.query.limit) : 6;
-   let sortBy = req.query.sortBy ? req.query.sortBy : 'createdAt';
-   let order = req.query.order ? req.query.order : 'desc';
+//    let limit = req.query.limit ? parseInt(req.query.limit) : 6;
+//    let sortBy = req.query.sortBy ? req.query.sortBy : 'createdAt';
+//    let order = req.query.order ? req.query.order : 'desc';
 
-   try {
-      let products = await Product.find({
-         _id: {
-            $ne: req.product
-         },
-         category: req.product.category
-      }).select('-photo')
-         .limit(limit)
-         .sort([
-            [sortBy, order]
-         ])
-         .populate('category', '_id name')
+//    try {
+//       let products = await Product.find({
+//          _id: {
+//             $ne: req.product
+//          },
+//          category: req.product.category
+//       }).select('-photo')
+//          .limit(limit)
+//          .sort([
+//             [sortBy, order]
+//          ])
+//          .populate('category', '_id name')
 
-      res.json(products);
+//       res.json(products);
 
-   } catch (error) {
-      console.log(error);
+//    } catch (error) {
+//       console.log(error);
 
-      req.error = {
-         status: 500,
-         message: 'Invalid querys'
-      };
-      next()
-   }
+//       req.error = {
+//          status: 500,
+//          message: 'Invalid querys'
+//       };
+//       next()
+//    }
 
-})
+// })
 
 
 // @route GET api/product/:id
