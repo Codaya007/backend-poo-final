@@ -23,7 +23,7 @@ module.exports = async (req, res, next) => {
 
       let user = await User.findById(decoded.user.id);
 
-      if (!user) req.error = { status: 401, message: "Invalid user" };
+      if (!user) return req.error = { status: 401, message: "Invalid user" };
 
       // set user id in req.user
       req.user = decoded.user;

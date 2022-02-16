@@ -31,14 +31,14 @@ orderRouter.post("/", [
       })
 ], auth, async (req, res, next) => {
 
+   if (req.error) return next();
+
    const errors = validationResult(req);
 
    if (!errors.isEmpty()) {
       req.error = { status: 400, errors };
       return next();
    }
-
-   if (req.error) return next();
 
    // El id lo sacamos del token
    const { country, city, address, reference, products } = req.body;
@@ -85,6 +85,9 @@ orderRouter.put("/:id", [
       return [PENDING, COMPLETED].includes(e);
    }),
 ], auth, adminAuth, async (req, res, next) => {
+
+   if (req.error) return next();
+
    const errors = validationResult(req);
 
    if (!errors.isEmpty()) {
@@ -119,6 +122,9 @@ orderRouter.put("/:id", [
 // @desc Delete an Order
 // access Private
 orderRouter.delete("/:orderId", auth, async (req, res, next) => {
+
+   if (req.error) return next();
+
    try {
       await Order.findByIdAndDelete(req.params.orderId);
       res.status(200).json("Order has been deleted...");
@@ -133,7 +139,10 @@ orderRouter.delete("/:orderId", auth, async (req, res, next) => {
 // @route GET api/order/user
 // @desc Get all orders of an user
 // access Private
-orderRouter.get("/user", auth, async (req, res) => {
+orderRouter.get("/user", auth, async (req, res, next) => {
+
+   if (req.error) return next();
+
    try {
       const orders = await Order.find({ userId: req.user.id });
       res.status(200).json(orders);
@@ -149,6 +158,9 @@ orderRouter.get("/user", auth, async (req, res) => {
 // @desc Get all orders
 // access Private Admin
 orderRouter.get("/", auth, adminAuth, async (req, res, next) => {
+
+   if (req.error) return next();
+
    try {
       const orders = await Order.find({});
       res.status(200).json(orders);
@@ -164,6 +176,9 @@ orderRouter.get("/", auth, adminAuth, async (req, res, next) => {
 // @desc GET MONTHLY INCOME
 // access Private Admin
 orderRouter.get("/income", auth, adminAuth, async (req, res, next) => {
+
+   if (req.error) return next();
+
    const date = new Date();
    const lastMonth = new Date(date.setMonth(date.getMonth() - 1));
    const previousMonth = new Date(new Date().setMonth(lastMonth.getMonth() - 1));
@@ -194,5 +209,46 @@ orderRouter.get("/income", auth, adminAuth, async (req, res, next) => {
       next();
    }
 });
+
+
+// @route GET api/order/:orderId
+// @desc Get order detail
+// access Private
+orderRouter.get("/:orderId", auth, async (req, res, next) => {
+
+   const { orderId } = req.params;
+
+   if (req.error) return next();
+
+   if (!ObjectID.isValid(orderId)) {
+      req.error = { status: 400, message: "Id no válido" };
+      return next();
+   };
+
+   try {
+      let order = await Order.findById(orderId);
+
+      if (!order) {
+         req.error = { status: 404, message: "Pedido no encontrado" };
+         return next();
+      }
+
+      let productos = await Promise.all(order.products.map(async (prod) => {
+         let finded = await Product.findById(prod.productId)
+            .select('name price')
+         finded = finded.toJSON();
+
+         return { ...finded, quantity: prod.quantity };
+      }));
+      order = order.toJSON();
+
+      res.status(200).json({ ...order, products: productos });
+   } catch (err) {
+      console.log(err);
+      req.error = {};
+      next();
+   }
+});
+
 
 module.exports = orderRouter;
