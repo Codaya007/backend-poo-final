@@ -38,6 +38,8 @@ paymentRouter.post('/', [
    try {
       // Destructuramos los atributos que recibimos por body
       const { processId, orderId } = req.body;
+      // console.log(processId)
+      // console.log(orderId)
       // Traemos el pedido para generar una descripción y obtener el precio de la transacción
       pedido = await Order.findById(orderId);
 
@@ -56,7 +58,7 @@ paymentRouter.post('/', [
 
       // Creamos un nuevo pago
       await stripe.paymentIntents.create({
-         amount: pedido.total * 100,
+         amount: pedido.totalAmount * 100,
          currency: "USD",
          description,
          payment_method: processId,
@@ -83,7 +85,7 @@ paymentRouter.post('/', [
       let user = await User.findById(pedido.userId);
       if (!user) throw new Error("Usuario no válido");
       user = user.toJSON();
-      console.log(pedido.products);
+      // console.log(pedido.products);
 
       let productos = await Promise.all(pedido.products.map(async (prod) => {
          let producto = await Product.findById(prod.productId);
@@ -94,9 +96,9 @@ paymentRouter.post('/', [
 	            </tr>`;
       }));
 
-      console.log(productos);
+      // console.log(productos);
       // send mail with defined transport object
-      let info = await transporter.sendMail({
+      await transporter.sendMail({
          from: '"Confirmación de pago" <vivicalvat007@gmail.com>',     // emisor
          to: user.email,                                              // destinatario/os
          subject: `Confirmación de pago por compra en ${NOMBRE_ECOMMERCE}`, // Asunto
