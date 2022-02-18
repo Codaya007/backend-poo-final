@@ -236,11 +236,13 @@ orderRouter.get("/:orderId", auth, async (req, res, next) => {
       let productos = await Promise.all(order.products.map(async (prod) => {
          let finded = await Product.findById(prod.productId)
             .select('name price')
-         finded = finded.toJSON();
+         finded = finded && finded.toJSON();
 
-         return { ...finded, quantity: prod.quantity };
+         return finded ? { ...finded, quantity: prod.quantity } : null;
       }));
       order = order.toJSON();
+
+      productos = productos.filter(e => e);
 
       res.status(200).json({ ...order, products: productos });
    } catch (err) {
