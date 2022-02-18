@@ -4,7 +4,7 @@ const User = require('../models/User');
 
 module.exports = async (req, res, next) => {
 
-   req.error && next();
+   if (req.error) return next();
 
    // get token from header
    const token = req.header('x-auth-token');
@@ -23,11 +23,15 @@ module.exports = async (req, res, next) => {
 
       let user = await User.findById(decoded.user.id);
 
-      if (!user) return req.error = { status: 401, message: "Invalid user" };
+      if (!user) {
+         req.error = { status: 401, message: "Invalid user" }
+         return next();
+      };
 
       // set user id in req.user
       req.user = decoded.user;
-      next();
+      // console.log("En auth: " + JSON.stringify(req.user));
+      return next();
 
    } catch (error) {
       console.log(error);

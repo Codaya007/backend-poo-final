@@ -256,13 +256,13 @@ productRouter.delete('/:id', auth, adminAuth, productById, async (req, res, next
 // @route   PUT api/product/:id
 // @desc    Update a Product
 // @access  Private Admin
-productRouter.put("/:id", auth, adminAuth, productById, async (req, res, next) => {
+productRouter.put('/:id', auth, adminAuth, productById, async (req, res, next) => {
    if (req.error) return next();
 
    let product = req.product;
 
    let { name, description, price, category, quantity, sold, photo } = req.body;
-   name && (product.name = name.trim().toLowerCase());
+   name && (product.name = name.trim());
    description && (product.description = description.trim());
    price && (product.price = price);
    category && (product.category = category);

@@ -5,6 +5,8 @@ const Product = require('../models/Product');
 module.exports = async (req, res, next) => {
    const { id } = req.params;
 
+   if (req.error) return next();
+
    if (!mongoose.Types.ObjectId.isValid(id)) {
       req.error = {
          status: 400,
