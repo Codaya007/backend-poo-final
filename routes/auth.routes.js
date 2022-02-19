@@ -7,7 +7,7 @@ const { JWT_SECRET } = require('../config');
 const { check, validationResult } = require('express-validator');
 const gravatar = require('gravatar');
 // requiero mi middleware de autenticación
-const { auth } = require('../middleware');
+const { auth, adminAuth } = require('../middleware');
 // requerimos el modelo de Usuario
 const User = require('../models/User');
 
@@ -27,6 +27,28 @@ authRouter.get('/',
       try {
          const user = await User.findById(req.user.id).select('-password')
          res.json(user);
+
+      } catch (err) {
+         console.log(err);
+         req.error = {};
+         next();
+      }
+   }
+)
+
+
+// @route POST api/user
+// @desc User Information
+// @access Private
+authRouter.get('/all',
+   auth, adminAuth,
+   async (req, res, next) => {
+
+      if (req.error) return next();
+
+      try {
+         const users = await User.find({}).select('-password')
+         res.json(users);
 
       } catch (err) {
          console.log(err);
