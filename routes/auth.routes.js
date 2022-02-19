@@ -37,9 +37,9 @@ authRouter.get('/',
 )
 
 
-// @route POST api/user
-// @desc User Information
-// @access Private
+// @route POST api/user/all
+// @desc Get all users information
+// @access Private admin
 authRouter.get('/all',
    auth, adminAuth,
    async (req, res, next) => {
