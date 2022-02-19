@@ -4,9 +4,9 @@ const User = require("../models/User");
 const Product = require("../models/Product");
 const { check, validationResult } = require('express-validator');
 const Stripe = require("stripe");
-const { CLAVE_PRIVADA_StrIPE } = process.env;
+const { CLAVE_PRIVADA_STRIPE } = process.env;
 const { NOMBRE_ECOMMERCE } = process.env;
-const stripe = new Stripe(CLAVE_PRIVADA_StrIPE);
+const stripe = new Stripe(CLAVE_PRIVADA_STRIPE);
 const transporter = require("../helpers/transporterEmail");
 // Requerimos los middlewares de autenticación
 const { auth } = require('../middleware');
