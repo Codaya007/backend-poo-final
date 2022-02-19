@@ -162,7 +162,24 @@ orderRouter.get("/", auth, adminAuth, async (req, res, next) => {
    if (req.error) return next();
 
    try {
-      const orders = await Order.find({});
+      let orders = await Order.find({});
+      if (orders.length) {
+         orders = await Promise.all(orders.map(async (order) => {
+            order = order.toJSON();
+            // De cada orden, traigo la info de cada producto
+            let products = await Promise.all(order.products.map(async (prod) => {
+               let finded = await Product.findById(prod.productId)
+                  .select('_id name price')
+               finded = finded && finded.toJSON();
+
+               return finded ? { ...finded, quantity: prod.quantity } : null;
+            }));
+            products = products.filter(e => e);
+
+            return { ...order, products };
+         }))
+      }
+
       res.status(200).json(orders);
    } catch (err) {
       console.log(err);
