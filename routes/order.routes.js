@@ -6,6 +6,7 @@ const { auth, adminAuth } = require('../middleware');
 // express-validator para validar las peticiones
 const { check, validationResult } = require('express-validator');
 const { PENDING, COMPLETED } = require("../helpers/constants");
+const User = require("../models/User");
 const ObjectID = require("mongodb").ObjectId
 
 
@@ -175,8 +176,9 @@ orderRouter.get("/", auth, adminAuth, async (req, res, next) => {
                return finded ? { ...finded, quantity: prod.quantity } : null;
             }));
             products = products.filter(e => e);
-
-            return { ...order, products };
+            let user = await User.findById(order.userId).select("name lastname");
+            delete order.userId;
+            return { ...order, products, user };
          }))
       }
 
