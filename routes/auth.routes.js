@@ -58,6 +58,77 @@ authRouter.get('/all',
    }
 )
 
+// @route PUT api/user/block/:userId
+// @desc Bloquear un usuario
+// @access Private admin
+authRouter.put('/block/:userId',
+   auth, adminAuth,
+   async (req, res, next) => {
+
+      if (req.error) return next();
+
+      try {
+         let user = await User.findById(req.params.userId);
+         if (!user) {
+            req.error = { status: 404, message: "User not found" };
+            return next();
+         }
+         user.role = 3;
+
+         try {
+            await user.save();
+            res.end();
+         } catch (err) {
+            console.log(err);
+
+            req.error = {};
+            next();
+         }
+
+      } catch (err) {
+         console.log(err);
+         req.error = {};
+         next();
+      }
+   }
+)
+
+
+// @route PUT api/user/unlock/:userId
+// @desc Desbloquear un usuario
+// @access Private admin
+authRouter.put('/unlock/:userId',
+   auth, adminAuth,
+   async (req, res, next) => {
+
+      if (req.error) return next();
+
+      try {
+         const user = await User.findById(req.params.userId);
+         if (!user) {
+            req.error = { status: 404, message: "User not found" };
+            return next();
+         }
+
+         user.role = 1;
+
+         try {
+            await user.save();
+            res.end();
+         } catch (err) {
+            console.log(err);
+
+            req.error = {};
+            next();
+         }
+      } catch (err) {
+         console.log(err);
+         req.error = {};
+         next();
+      }
+   }
+)
+
 
 // @route POST api/user/register
 // @desc Register user
@@ -169,6 +240,11 @@ authRouter.post('/login', [
          };
          return next()
       };
+      // No dejamos entrar a usuarios bloqueados
+      if (user.role === 3) {
+         req.error = { status: 403, message: "Usuario bloqueado" };
+         return next();
+      }
 
       // Teniedo el usuario, determinamos si la contraseña enviada es correcta
       const isMatch = await bcrypt.compare(password, user.password);

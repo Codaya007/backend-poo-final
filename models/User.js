@@ -22,14 +22,10 @@ const UserSchema = new mongoose.Schema({
       type: String,
    },
    role: {
-      // Determina los privilegios que tiene (normal:0 o admin:1)
+      // Determina los privilegios que tiene (normal:0 o admin:1 bloqueado: 3)
       type: Number,
       required: true,
       default: 0
-   },
-   address: {
-      type: String,
-      required: true,
    }
 }, {
    timestamps: true

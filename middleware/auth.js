@@ -27,6 +27,10 @@ module.exports = async (req, res, next) => {
          req.error = { status: 401, message: "Invalid user" }
          return next();
       };
+      if (user.role === 3) {
+         req.error = { status: 403, message: "Usuario bloqueado" };
+         return next();
+      }
 
       // set user id in req.user
       req.user = decoded.user;
