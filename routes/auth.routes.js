@@ -10,6 +10,8 @@ const gravatar = require('gravatar');
 const { auth, adminAuth } = require('../middleware');
 // requerimos el modelo de Usuario
 const User = require('../models/User');
+const transporter = require('../helpers/transporterEmail');
+const getRegisterEmail = require('../data/getRegisterEmail');
 
 
 const authRouter = Router();
@@ -110,7 +112,7 @@ authRouter.put('/unlock/:userId',
             return next();
          }
 
-         user.role = 1;
+         user.role = 0;
 
          try {
             await user.save();
@@ -197,9 +199,29 @@ authRouter.post('/register', [
          payload,
          JWT_SECRET, {
          expiresIn: "5d" //for development 36000
-      }, (err, token) => {
+      }, async (err, token) => {
          if (err) throw err;
-         res.status(201).json({ token });
+
+         try {
+            // Finalmente le envío un email de bienvenida
+            user = user.toJSON();
+            // console.log(user);
+
+            // send mail with defined transport object
+            await transporter.sendMail({
+               from: '"Bienvenidx a Minimarket Yerick" <vivicalvat007@gmail.com>',     // emisor
+               to: email,                                      // destinatario/os
+               subject: "BIENVENIDX A NUESTRO ECOMMERCE",      // Asunto
+               html: getRegisterEmail(name + " " + lastname),   //html body
+            });
+
+         } catch (err) {
+            console.log(err);
+            console.log("No se ha podido enviar el correo de registro");
+         } finally {
+            res.status(201).json({ token });
+         }
+
       }
       );
    } catch (err) {

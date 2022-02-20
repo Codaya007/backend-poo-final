@@ -44,18 +44,22 @@ orderRouter.post("/", [
    // El id lo sacamos del token
    const { country, city, address, reference, products } = req.body;
    // products: [{ productId, quantity }]
+   // console.log(products);
    try {
       let totalAmount = 0;
       let productsExist = await Promise.all(products.map(async (e) => {
          // Valido que se me haya proporcionado un id válido
          if (!ObjectID.isValid(e.productId)) return null;
 
-         let product = await Product.findOne({ id: e.productId });
+         let product = await Product.findById(e.productId);
          if (product) {
             product = product.toJSON();
             // console.log(product);
-            if (e.quantity === 0) return null;
+            if (product.quantity === 0) return null;
             e.quantity = e.quantity <= product.quantity ? e.quantity : product.quantity;
+            // console.log(product)
+            // console.log(e.quantity)
+            // console.log(product.price)
             totalAmount += (e.quantity * product.price);
             return { ...e };
          }
