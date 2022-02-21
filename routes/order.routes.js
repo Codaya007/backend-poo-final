@@ -53,6 +53,7 @@ orderRouter.post("/", [
 
          let product = await Product.findById(e.productId);
          if (product) {
+            let aux = product;
             product = product.toJSON();
             // console.log(product);
             if (product.quantity === 0) return null;
@@ -61,6 +62,13 @@ orderRouter.post("/", [
             // console.log(e.quantity)
             // console.log(product.price)
             totalAmount += (e.quantity * product.price);
+            let auxCantidad = product.quantity;
+            let auxVendidos = product.sold;
+            // actualizo la cantidad
+            aux.quantity = auxCantidad - e.quantity;
+            aux.sold = auxVendidos + e.quantity;
+            await aux.save();
+            // console.log(aux.toJSON());
             return { ...e };
          }
          return null;
@@ -70,6 +78,10 @@ orderRouter.post("/", [
       productsExist = productsExist.filter(e => e);
       // console.log(productsExist);
       // console.log(totalAmount);
+      if (!productsExist.length) {
+         req.error = { status: 400, message: "Ningúno de los productos indicados están en stock" };
+         return next();
+      }
 
       let newOrder = new Order({ userId: req.user.id, country, city, address, reference, products: productsExist, totalAmount });
       await newOrder.save();
