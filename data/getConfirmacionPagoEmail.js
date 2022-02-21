@@ -1412,6 +1412,7 @@ ${productos.reduce((prev, current) => prev + current, "")}
                                                                       </tr>
                                                                       <tr>
                                                                         <td
+                                                                        colspan="2"
                                                                           align="center"
                                                                           class="text center-text"
                                                                           style="
