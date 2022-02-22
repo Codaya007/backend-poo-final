@@ -83,7 +83,7 @@ orderRouter.post("/", [
          return next();
       }
 
-      let newOrder = new Order({ userId: req.user.id, country, city, address, reference, products: productsExist, totalAmount });
+      let newOrder = new Order({ userId: req.user.id, country, city, address, reference, products: productsExist, totalAmount: Math.round(totalAmount * 100)/100 });
       await newOrder.save();
       res.json(newOrder);
    } catch (err) {
