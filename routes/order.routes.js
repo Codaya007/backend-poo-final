@@ -83,7 +83,7 @@ orderRouter.post("/", [
          return next();
       }
 
-      let newOrder = new Order({ userId: req.user.id, country, city, address, reference, products: productsExist, totalAmount: Math.round(totalAmount * 100)/100 });
+      let newOrder = new Order({ userId: req.user.id, country, city, address, reference, products: productsExist, totalAmount: Math.round(totalAmount * 100) / 100 });
       await newOrder.save();
       res.json(newOrder);
    } catch (err) {
@@ -143,7 +143,35 @@ orderRouter.delete("/:orderId", auth, async (req, res, next) => {
    if (req.error) return next();
 
    try {
-      await Order.findByIdAndDelete(req.params.orderId);
+      let order = await Order.findById(req.params.orderId);
+      if (order) {
+         order = order.toJSON();
+         //Restablezco los valores
+         await Promise.all(order.products.map(async (e) => {
+            console.log(e);
+            let product = await Product.findById(e.productId);
+            if (product) {
+               let aux = product;
+               product = product.toJSON();
+
+               // actualizo la cantidad devolviendo lo restado antes
+               console.log(aux.toJSON())
+               console.log(e)
+               aux.quantity = product.quantity + e.quantity;
+               aux.sold = product.sold - e.quantity;
+               console.log(aux.toJSON())
+               await aux.save();
+               return { ...e };
+            }
+            return null;
+         }))
+
+         // Finalmente elimino la orden
+         order = await Order.findByIdAndDelete(req.params.orderId);
+      } else {
+         return res.status(404).json("Order not found");
+      }
+
       res.status(200).json("Order has been deleted...");
    } catch (err) {
       console.log(err);
