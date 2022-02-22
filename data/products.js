@@ -159,5 +159,131 @@ module.exports = [
       "quantity": 46,
       "sold": 23,
       "photo": "https://tiaecuador.vteximg.com.br/arquivos/ids/181088-1000-1000/263768000.jpg?v=637589545424200000"
-   }
+   },
+   {
+      "name": "GALLETA OREO MEDIANA",
+      "description": "Ricas galletas de chocolate con relleno de vainilla",
+      "price": 0.5,
+      "category": "620f0c2d44698aadd33f10bd",//"snacks",
+      "quantity": 20,
+      "sold": 5,
+      "photo": "https://tiaecuador.vteximg.com.br/arquivos/ids/167650-1000-1000/262130002.jpg?v=637304709203030000"
+   },
+   {
+      "name": "JUGO NARANJA PULP 1 L",
+      "description": "Jugo Pulp néctar de Naranja Con Vitaminas B12, B6, C. Acompaña tus desayunos.",
+      "price": 1.09,
+      "category": "62144db1e310a96d1d830537",//"jugos",
+      "quantity": 34,
+      "sold": 10,
+      "photo": "https://tiaecuador.vteximg.com.br/arquivos/ids/163232-1000-1000/242626004.jpg?v=637007240805730000"
+   },
+   {
+      "name": "JUGO DURAZNO PULP 1 L",
+      "description": "Jugo Pulp néctar de Durazno Con Vitaminas B12, B6, C. Acompaña tus desayunos.",
+      "price": 1.09,
+      "category": "62144db1e310a96d1d830537",//"jugos",
+      "quantity": 37,
+      "sold": 20,
+      "photo": "https://tiaecuador.vteximg.com.br/arquivos/ids/163229-1000-1000/242626001.jpg?v=637007240794300000"
+   },
+   {
+      "name": "JUGO NECTAR MANZANA DEL VALLE 1 L",
+      "description": "Néctar de Manzana Con Vitaminas saludables para ti. Acompaña tus desayunos.",
+      "price": 1,
+      "category": "62144db1e310a96d1d830537",//"jugos",
+      "quantity": 35,
+      "sold": 12,
+      "photo": "https://tiaecuador.vteximg.com.br/arquivos/ids/184123-1000-1000/242597003.jpg?v=637668075144630000"
+   },
+   {
+      "name": "JUGO DELI 1L NARANJA",
+      "description": "Bebida con jugo de naranja con vitaminas A y C. No contiene grasa",
+      "price": 1.20,
+      "category": "62144db1e310a96d1d830537",//"jugos",
+      "quantity": 35,
+      "sold": 14,
+      "photo": "https://tiaecuador.vteximg.com.br/arquivos/ids/180690-1000-1000/242778000.jpg?v=637578231393070000"
+   },
+   {
+      "name": "COLA FRESA 3785 ML TROPICAL",
+      "description": "Tropical es la gaseosa tradicional del Ecuador, su sabor a fresa ha acompañado a muchas generaciones de ecuatorianos.",
+      "price": 1.80,
+      "category": "62145052e310a96d1d830543",//"bebidas",
+      "quantity": 27,
+      "sold": 50,
+      "photo": "https://tiaecuador.vteximg.com.br/arquivos/ids/155859-1000-1000/2000198.jpg?v=636225932549900000"
+   },
+   {
+      "name": "PACK COCA COLA 2.75 L + SPRITE 3 L",
+      "description": "Coca-Cola Original. La refrescante opción que te acompaña para compartir con quien quieras.",
+      "price": 5,
+      "category": "62145052e310a96d1d830543",//"bebidas",
+      "quantity": 12,
+      "sold": 10,
+      "photo": "https://tiaecuador.vteximg.com.br/arquivos/ids/184938-1000-1000/247173000.jpg?v=637697601133830000"
+   },
+   {
+      "name": "COLA MANZANA 3785 ML",
+      "description": "Bebida refrescante para compartir en familia.",
+      "price": 1.80,
+      "category": "62145052e310a96d1d830543",//"bebidas",
+      "quantity": 37,
+      "sold": 13,
+      "photo": "https://tiaecuador.vteximg.com.br/arquivos/ids/161398-1000-1000/247056000.jpg?v=636846625567930000"
+   },
+   {
+      "name": "COLA SIN AZÚCAR COCA COLA ZERO 2.75 L",
+      "description": "Zero es una de las variantes no calóricas de Coca-Cola y es parte del compromiso de The Coca-Cola Company para ofrecer más opciones de productos sin calorías que satisfagan las necesidades y deseos de las personas. Es un refresco que tiene un gran sabor, de alta calidad, con cero calorías, cero azúcar y baja en sodio.",
+      "price": 2.49,
+      "category": "62145052e310a96d1d830543",//"bebidas",
+      "quantity": 32,
+      "sold": 7,
+      "photo": "https://tiaecuador.vteximg.com.br/arquivos/ids/169000-1000-1000/247126000.jpg?v=637324609800400000"
+   },
+   {
+      "name": "MANTEQUILLA DE MANI CRIS CREAMY 135 G",
+      "description": "Podrás disfrutar del sabor del maní con la cremosa mantequilla, 100% natural, no contiene conservantes ni transgénico, conservar en un ambiente fresco y seco, una vez abierto manténgase en refrigeración, producto ecuatoriano..",
+      "price": 3,
+      "category": "62145028e310a96d1d83053d",//"mantequillas",
+      "quantity": 20,
+      "sold": 5,
+      "photo": "https://tiaecuador.vteximg.com.br/arquivos/ids/174458-1000-1000/250979000.jpg?v=637478148451400000"
+   },
+   {
+      "name": "MANTEQUILLA DE MANI KARAY 225 G",
+      "description": "La mantequilla de maní con miel de abeja Karay es elaborada a partir de maní fresco y natural, mediante un proceso especial de molienda, el cual no genera calor y por ende no degrada los micronutrientes del maní, manteniendo todos sus beneficios.",
+      "price": 4.79,
+      "category": "62145028e310a96d1d83053d",//"mantequillas",
+      "quantity": 34,
+      "sold": 10,
+      "photo": "https://tiaecuador.vteximg.com.br/arquivos/ids/171894-1000-1000/259681000.jpg?v=637390012636370000"
+   },
+   {
+      "name": "MANTEQUILLA DE ALMENDRA KARAY 235 G",
+      "description": "La Mantequilla de Almendras Karay es elaborada a partir de almendras frescas y naturales, mediante un proceso especial de molienda, el cual no genera calor y por ende no degrada los micronutrientes de la almendra; manteniendo todos sus beneficios. Nuestra mantequilla no contiene aceite vegetal añadido.",
+      "price": 3.99,
+      "category": "62145028e310a96d1d83053d",//"mantequillas",
+      "quantity": 23,
+      "sold": 11,
+      "photo": "https://tiaecuador.vteximg.com.br/arquivos/ids/171893-1000-1000/259680000.jpg?v=637390010904670000"
+   },
+   {
+      "name": "MARGARINA REGIA GIRASOL 250 G",
+      "description": "Margarina de girasol, enriquecida con vitaminas A y D, de consistencia suave, libre de grasas tans y cero colesterol.",
+      "price": 1.09,
+      "category": "62145028e310a96d1d83053d",//"mantequillas",
+      "quantity": 25,
+      "sold": 7,
+      "photo": "https://tiaecuador.vteximg.com.br/arquivos/ids/179818-1000-1000/253213000.jpg?v=637564391789170000"
+   },
+   {
+      "name": "MARGARINA BONELLA 1 KG",
+      "description": "Elaborada a partir de aceites de semillas de plantas. Además, te aporta vitaminas E, A, D y mucho sabor. Es suave, fácil de untar y excelente para cocinar. Tiene 0% colesterol y es libre de grasas trans.",
+      "price": 4.75,
+      "category": "62145028e310a96d1d83053d",//"mantequillas",
+      "quantity": 34,
+      "sold": 9,
+      "photo": "https://tiaecuador.vteximg.com.br/arquivos/ids/163041-1000-1000/253206000.jpg?v=636988094551200000"
+   },
 ]
