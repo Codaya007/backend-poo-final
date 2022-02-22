@@ -59,7 +59,7 @@ paymentRouter.post('/', [
 
         // Creamos un nuevo pago
         await stripe.paymentIntents.create({
-            amount: pedido.totalAmount * 100,
+            amount: Math.round(pedido.totalAmount * 100),
             currency: "USD",
             description,
             payment_method: processId,
