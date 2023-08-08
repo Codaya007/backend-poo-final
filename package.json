@@ -4,8 +4,8 @@
   "description": "Backend de una tienda virtual",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon .",
-    "dev": "node --watch .",
+    "start": "node .",
+    "dev": "nodemon .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
